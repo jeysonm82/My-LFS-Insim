@@ -17,8 +17,9 @@ class PitInformant(InsimClient):
         self.lic=self.config.get('pit_warning','licencia')
         self.posx=self.config.getint('pit_warning','posx')
         self.posy=self.config.getint('pit_warning','posy')
+        self.pit_gap = self.config.getint('pit_warning','pit_gap')
         self.curlap=0
-        
+               
     def pitstop(self,insim, pt):
         InsimClient.pitstop(self, insim, pt)
         self.curlap=pt.LapsDone+1
@@ -33,7 +34,7 @@ class PitInformant(InsimClient):
         prev_pit=self.get_last_validpit()
       
         
-        if(prev_pit>0 and (self.curlap-prev_pit)>=3 ):
+        if(prev_pit>0 and (self.curlap-prev_pit)>=self.pit_gap):
             #is valid
             cl=1
         elif(prev_pit==0):
